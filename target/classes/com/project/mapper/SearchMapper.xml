@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.mapper.SearchMapper">
+	
+    <select id="selectMyHistory" resultType="com.project.vo.SearchVo">
+select
+       keyword
+      ,to_char(max(reg_dt), 'yyyy.mm.dd hh24:mi:ss')   as regDtText
+  from tb_search_log
+ where mber_id = #{mberId}
+ group by keyword
+ order by reg_dt desc
+ limit 0, 10
+    </select>
+    
+    <select id="selectFavoriteKeyword" resultType="com.project.vo.SearchVo">
+select
+       keyword
+      ,count(1)    as cnt
+  from tb_search_log
+ where 1=1
+   and to_char(reg_dt, 'yyyymmdd') = to_char(sysdate, 'yyyymmdd')
+ group by keyword
+ order by count(1) desc
+ limit 0, 10
+    </select>
+    
+</mapper>

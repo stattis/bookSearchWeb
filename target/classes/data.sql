@@ -1,0 +1,27 @@
+INSERT INTO TB_MEMBER
+(
+  MBER_ID
+ ,MBER_NM
+ ,MBER_PW
+ ,REG_DT
+)
+VALUES
+(
+  'stattis'
+ ,'박정환'
+ ,'9e3bc02aac9aea811d02f2e30d54b6d0723fb94509ddb9b9bdd0f7d68064bf08d9c37bf1ed312f7e9b7d4a461159c56b168f661732786629f16ea23b62433259'
+ ,SYSDATE
+);
+
+INSERT INTO TB_SEARCH_LOG
+(
+  KEYWORD
+ ,MBER_ID
+ ,REG_DT
+)
+VALUES
+(
+  '조제 사라마구'
+ ,'stattis'
+ ,SYSDATE
+);
