@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -134,9 +135,13 @@ public class MemberController {
 	 * resultCode가 99 이외일 경우 결과메시지
 	 */
 	@ResponseBody
-	@RequestMapping("/memberLoginAction")
+	@RequestMapping(value="/memberLoginAction")
 	public MemberVo memberLoginAction(MemberVo memberVo, Model model, HttpServletRequest request, HttpServletResponse response) {
 		
+		// 응답헤더 지정
+		HttpHeaders resHeaders = new HttpHeaders();
+		resHeaders.add("Content-Type", "application/json;charset=UTF-8");
+	    
 		MemberVo voReturn = new MemberVo();
 		
 		try {
