@@ -1,5 +1,6 @@
 package com.project.service;
 
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -102,6 +103,44 @@ public class MemberService {
 			return;
 			
 		}
+		
+	}
+	
+	
+	/**
+	 * 회원가입 데이터에 대한 검증과 병합을 수행한다.
+	 * @param memberVo
+	 */
+	public MemberVo saveMemberJoinData(MemberVo memberVo) {
+		
+		MemberVo voReturn = new MemberVo();
+		
+		//회원정보 저장처리 전 데이터 검증을 수행한다.
+		this.validateMemberJoinData(memberVo);
+		if(CommonUtil.nullToBlank(memberVo.getResultCode()).equals("-1")) {
+			
+			//결과 데이터 설정
+			voReturn.setResultCode(memberVo.getResultCode());
+			voReturn.setResultMessage(memberVo.getResultMessage());
+			
+		} else {
+			
+			//데이터 검증결과가 문제없으면 저장처리 수행
+			
+			//비밀번호 Hash암호화 수행
+			String strHashPassword = CommonUtil.getSHA512(memberVo.getMberPw());
+			memberVo.setMberPw(strHashPassword);
+			
+			//등록일자 생성
+			memberVo.setRegDt(new Date());
+			
+			memberRepository.save(memberVo);
+			
+			voReturn.setResultCode("99");
+			
+		}
+		
+		return voReturn;
 		
 	}
 	

@@ -1,7 +1,5 @@
 package com.project.controller;
 
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.project.common.util.CommonUtil;
 import com.project.dao.MemberRepository;
 import com.project.service.MemberService;
 import com.project.vo.MemberVo;
@@ -62,30 +59,8 @@ public class MemberController {
 		
 		try {
 			
-			//회원정보 저장처리 전 데이터 검증을 수행한다.
-			memberService.validateMemberJoinData(memberVo);
-			if(CommonUtil.nullToBlank(memberVo.getResultCode()).equals("-1")) {
-				
-				//결과 데이터 설정
-				voReturn.setResultCode(memberVo.getResultCode());
-				voReturn.setResultMessage(memberVo.getResultMessage());
-				
-			} else {
-				
-				//데이터 검증결과가 문제없으면 저장처리 수행
-				
-				//비밀번호 Hash암호화 수행
-				String strHashPassword = CommonUtil.getSHA512(memberVo.getMberPw());
-				memberVo.setMberPw(strHashPassword);
-				
-				//등록일자 생성
-				memberVo.setRegDt(new Date());
-				
-				memberRepository.save(memberVo);
-				
-				voReturn.setResultCode("99");
-				
-			}
+			//회원정보 검증 및 저장처리를 수행한다.
+			voReturn = memberService.saveMemberJoinData(memberVo);
 			
 		} catch(Exception e) {
 			
